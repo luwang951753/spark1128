@@ -18,10 +18,15 @@ object WordCount {
         val sctx = new StreamingContext(conf, Seconds(5))
         
         // 3. 创建 DStream来进行数据的处理
-        val dstream: ReceiverInputDStream[String] = sctx.socketTextStream("hadoop201", 10000)
+        val dstream: ReceiverInputDStream[String] = sctx.socketTextStream("hadoop102", 9092)
         
-        val wordCountDStream: DStream[(String, Int)] =
-            dstream.flatMap(_.split("\\W+")).map((_, 1)).reduceByKey(_ + _)
+//        val wordCountDStream: DStream[(String, Int)] =
+//            dstream.flatMap(_.split("\\W+")).map((_, 1)).reduceByKey(_ + _)
+
+        val wordCountDStream = dstream.transform(rdd => {
+            rdd.flatMap(_.split("\\W")).map((_, 1)).reduceByKey(_ + _)
+        })
+//        wordCountDStream
         
         wordCountDStream.print
         

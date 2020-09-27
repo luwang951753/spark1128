@@ -22,14 +22,18 @@ object RDDQueueDemo {
         val queue: mutable.Queue[RDD[Int]] = mutable.Queue[RDD[Int]]()
         val dstream: InputDStream[Int] = sctx.queueStream(queue, false)
         dstream.reduce(_ + _).print
-    
+
+
+
         sctx.start
-    
+
         while(true){
             queue += sctx.sparkContext.parallelize(1 to 100)
             Thread.sleep(2000)
         }
     
         sctx.awaitTermination()
+
+
     }
 }

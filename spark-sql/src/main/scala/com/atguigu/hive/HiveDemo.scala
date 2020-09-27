@@ -13,14 +13,14 @@ object HiveDemo {
             .master("local[*]")
             .appName("Test")
             .enableHiveSupport()
-            .config("spark.sql.warehouse.dir", "hdfs://hadoop201:9000/user/hive/warehouse")
+            .config("spark.sql.warehouse.dir", "hdfs://hadoop102:9000/user/hive/warehouse")
             .getOrCreate()
         import spark.implicits._
         
 //        spark.sql("show tables").show
 //        spark.sql("create table user(id int)")
-//        spark.sql("select * from emp").show()
-        spark.sql("create database db2")
+        spark.sql("select * from product_info").show()
+//        spark.sql("create database db2")
 //        spark.sql("use default")
 //        spark.sql("create table tmp(id int, name string)")
         spark.stop()
